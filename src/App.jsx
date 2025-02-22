@@ -1,4 +1,4 @@
-import Tasks from "./components/Tasks";
+import Tasks from "./components/tasks";
 import AddTask from "./components/AddTask";
 import { useState } from "react";
 import {v4} from 'uuid';
@@ -14,7 +14,7 @@ function App() {
     {
       id: 2,
       title: "Estudar inglês",
-      description: "Estudar react para se tornar uma desenvolvedora.",
+      description: "Estudar inglês para se tornar uma desenvolvedora.",
       isCompleted: false,
     },
     {
