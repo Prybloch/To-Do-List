@@ -1,29 +1,24 @@
 import Tasks from "./components/tasks";
 import AddTask from "./components/AddTask";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {v4} from 'uuid';
 
+
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Estudar programação",
-      description: "Estudar react para se tornar uma desenvolvedora.",
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      title: "Estudar inglês",
-      description: "Estudar inglês para se tornar uma desenvolvedora.",
-      isCompleted: false,
-    },
-    {
-      id: 3,
-      title: "Estudar japonês",
-      description: "Estudar japonês para morar no Japão um dia.",
-      isCompleted: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState(() => {
+    const storedTasks = localStorage.getItem("tasks");
+  
+    try {
+      return storedTasks ? JSON.parse(storedTasks) : [];
+    } catch (error) {
+      console.error("Erro ao fazer parse do JSON:", error);
+      return []; // Retorna um array vazio se houver erro no JSON
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]); 
 
   function onTaskClick(taskId) {
     const newTasks = tasks.map((task) => {
@@ -38,7 +33,7 @@ function App() {
   }
 
   function onDeleteTaskClick(taskId) {
-    const newTasks = tasks.filter((task => task.id !== taskId));
+    const newTasks = tasks.filter(task => task.id !== taskId);
     setTasks(newTasks);
   }
 
@@ -53,7 +48,7 @@ function App() {
   }
 
   return (
-    <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
+    <div className="w-screen h-screen bg-slate-950 flex justify-center p-6">
       <div className="w-[500px] space-y-6">
         <h1 className="text-3xl text-slate-100 font-bold text-center">
           {" "}
